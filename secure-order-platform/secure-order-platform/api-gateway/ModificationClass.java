@@ -1,1 +1,1 @@
-class {  System.out.println("Hello, World!");
+class {  System.out.println("HellszgsGo, World!");
