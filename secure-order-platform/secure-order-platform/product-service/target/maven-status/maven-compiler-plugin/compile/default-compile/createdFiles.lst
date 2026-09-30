@@ -1,0 +1,5 @@
+com\example\productservice\ProductController$CreateProduct.class
+com\example\productservice\ProductController$Product.class
+com\example\productservice\security\SecurityConfig.class
+com\example\productservice\ProductServiceApplication.class
+com\example\productservice\ProductController.class

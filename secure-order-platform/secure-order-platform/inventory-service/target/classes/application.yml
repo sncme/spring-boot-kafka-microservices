@@ -1,0 +1,37 @@
+server:
+  port: 8085
+spring:
+  application:
+    name: inventory-service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${OAUTH2_ISSUER_URI:http://localhost:8081/realms/secure-order}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/inventory}
+    username: ${DB_USERNAME:app}
+    password: ${DB_PASSWORD:app-dev-password}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: ${KAFKA_CONSUMER_GROUP:inventory-service}
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: com.example.*
+        spring.json.use.type.headers: false
+        spring.json.value.default.type: com.example.inventoryservice.InventoryListener$OrderCreatedEvent
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer

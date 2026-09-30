@@ -1,0 +1,7 @@
+com\example\inventoryservice\KafkaConfig.class
+com\example\inventoryservice\InventoryListener.class
+com\example\inventoryservice\InventoryListener$InventoryReservedEvent.class
+com\example\inventoryservice\InventoryServiceApplication.class
+com\example\inventoryservice\security\SecurityConfig.class
+com\example\inventoryservice\InventoryListener$OrderCreatedEvent.class
+com\example\inventoryservice\InventoryController.class

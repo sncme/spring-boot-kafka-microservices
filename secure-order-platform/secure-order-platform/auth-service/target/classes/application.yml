@@ -1,0 +1,15 @@
+server:
+  port: 8088
+spring:
+  application:
+    name: auth-service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${OAUTH2_ISSUER_URI:http://localhost:8081/realms/secure-order}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

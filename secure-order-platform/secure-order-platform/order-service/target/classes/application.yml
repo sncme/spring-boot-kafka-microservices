@@ -1,0 +1,46 @@
+server:
+  port: 8084
+spring:
+  application:
+    name: order-service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${OAUTH2_ISSUER_URI:http://localhost:8081/realms/secure-order}
+      client:
+        registration:
+          inventory-client:
+            provider: keycloak
+            authorization-grant-type: client_credentials
+            client-id: ${SERVICE_CLIENT_ID:order-service}
+            client-secret: ${SERVICE_CLIENT_SECRET:order-service-dev-secret}
+            scope: inventory.read
+        provider:
+          keycloak:
+            token-uri: ${OAUTH2_TOKEN_URI:http://localhost:8081/realms/secure-order/protocol/openid-connect/token}
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/orderdb}
+    username: ${DB_USERNAME:app}
+    password: ${DB_PASSWORD:app-dev-password}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: ${KAFKA_CONSUMER_GROUP:order-service}
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: com.example.*
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
